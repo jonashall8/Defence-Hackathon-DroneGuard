@@ -6,7 +6,7 @@
 ## Project Overview
 **DroneGuard** is a hybrid AI-powered acoustic detection system designed to identify and classify Class 1 Uncrewed Aerial Systems (UAS) in real-time.
 
-Built during the **Ottawa Defence Hackathon 2025**, this prototype addresses the critical challenge of detecting "Low, Slow, and Small" (LSS) aerial threats that often evade traditional radar cross-sections.
+Built for the **Ottawa Defence Hackathon 2025**, this prototype addresses the critical challenge of detecting "Low, Slow, and Small" (LSS) aerial threats that often evade traditional radar cross-sections.
 
 By leveraging **Transfer Learning** on the YAMNet architecture, DroneGuard acts as a "Shazam for Drones," distinguishing between ambient environmental noise (wind, traffic, birds) and specific drone motor harmonics in cluttered urban environments.
 
@@ -99,6 +99,7 @@ Developed for the **Ottawa Defence Hackathon**.
 * **Dataset:** Provided by AVSS / Challenge Organizers.
 * **Model:** YAMNet (Google Research).
 * **Team:** [Your Team Name / Your Name]
+
 
 
 
