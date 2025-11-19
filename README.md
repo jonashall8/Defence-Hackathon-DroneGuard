@@ -3,7 +3,7 @@
 ![DroneGuard Dashboard Screenshot](screenshots/drone-dashboard.png)
 *> **Note:** Above is a capture of the live dashboard identifying a Class 1 UAS threat in a simulated environment.*
 
-## 📋 Project Overview
+## Project Overview
 **DroneGuard** is a hybrid AI-powered acoustic detection system designed to identify and classify Class 1 Uncrewed Aerial Systems (UAS) in real-time.
 
 Built during the **Ottawa Defence Hackathon 2025**, this prototype addresses the critical challenge of detecting "Low, Slow, and Small" (LSS) aerial threats that often evade traditional radar cross-sections.
@@ -99,5 +99,6 @@ Developed for the **Ottawa Defence Hackathon**.
 * **Dataset:** Provided by AVSS / Challenge Organizers.
 * **Model:** YAMNet (Google Research).
 * **Team:** [Your Team Name / Your Name]
+
 
 
