@@ -12,7 +12,7 @@ By leveraging **Transfer Learning** on the YAMNet architecture, DroneGuard acts 
 
 ---
 
-## ⚔️ Tactical Value: Why This Matters on the Modern Battlefield
+##  Tactical Value: Why This Matters on the Modern Battlefield
 
 As seen in recent conflicts, the battlefield is increasingly saturated with low-cost, commercial-off-the-shelf (COTS) drones used for reconnaissance and kinetic strikes.
 
@@ -28,7 +28,7 @@ As seen in recent conflicts, the battlefield is increasingly saturated with low-
 
 ---
 
-## 🏗️ Tech Stack & Architecture
+## Tech Stack & Architecture
 
 This system utilizes a **Microservices Architecture** to separate high-performance AI inference from robust mission management.
 
@@ -40,7 +40,7 @@ This system utilizes a **Microservices Architecture** to separate high-performan
 
 ---
 
-## 🚀 Deployment Instructions
+##  Deployment Instructions
 
 ### Prerequisites
 * **Java 20** (or JDK 17+)
@@ -93,9 +93,10 @@ This system utilizes a **Microservices Architecture** to separate high-performan
 
 ---
 
-## 📜 License & Acknowledgments
+## License & Acknowledgments
 Developed for the **Ottawa Defence Hackathon**.
 
 * **Dataset:** Provided by AVSS / Challenge Organizers.
 * **Model:** YAMNet (Google Research).
 * **Team:** [Your Team Name / Your Name]
+
