@@ -1,4 +1,4 @@
-# 🚁 DroneGuard: Acoustic UAS Detection System
+# DroneGuard: Acoustic UAS Detection System
 
 ![DroneGuard Dashboard Screenshot](screenshots/drone-dashboard.png)
 *> **Note:** Above is a capture of the live dashboard identifying a Class 1 UAS threat in a simulated environment.*
@@ -99,4 +99,5 @@ Developed for the **Ottawa Defence Hackathon**.
 * **Dataset:** Provided by AVSS / Challenge Organizers.
 * **Model:** YAMNet (Google Research).
 * **Team:** [Your Team Name / Your Name]
+
 
