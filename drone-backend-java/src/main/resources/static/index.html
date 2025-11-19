@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DroneGuard Command Center</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #e2e8f0;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+        }
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .radar-container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 400px;
+            border: 1px solid #334155;
+        }
+        .status-indicator {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #334155;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: all 0.3s ease;
+            border: 4px solid #475569;
+        }
+        .safe { background-color: var(--accent-green); box-shadow: 0 0 20px var(--accent-green); }
+        .threat { background-color: var(--accent-red); animation: pulse 1s infinite; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        h1 { margin-bottom: 0.5rem; letter-spacing: 2px; }
+        .data-display { margin: 20px 0; font-size: 1.2rem; }
+        .confidence-bar {
+            height: 10px;
+            background: #334155;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .confidence-fill {
+            height: 100%;
+            background: var(--accent-green);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        button.recording { background-color: #f59e0b; }
+    </style>
+</head>
+<body>
+
+<div class="radar-container">
+    <div id="status-circle" class="status-indicator">🛡️</div>
+
+    <h1 id="status-text">SYSTEM READY</h1>
+    <p style="color: #94a3b8;">ACOUSTIC SENSOR ARRAY</p>
+
+    <div class="data-display">
+        <div>Class: <span id="class-name">--</span></div>
+        <div>Confidence: <span id="confidence-val">0%</span></div>
+        <div class="confidence-bar">
+            <div id="confidence-fill" class="confidence-fill"></div>
+        </div>
+    </div>
+
+    <button id="toggle-btn" onclick="toggleMonitoring()">START MONITORING</button>
+</div>
+
+<script>
+    let isMonitoring = false;
+    let mediaRecorder;
+    let audioChunks = [];
+
+    async function toggleMonitoring() {
+        const btn = document.getElementById('toggle-btn');
+
+        if (!isMonitoring) {
+            // START MONITORING
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                isMonitoring = true;
+                btn.textContent = "🔴 LISTENING...";
+                btn.classList.add('recording');
+                startRecordingLoop(stream);
+            } catch (err) {
+                alert("Error accessing microphone: " + err);
+            }
+        } else {
+            // STOP MONITORING
+            isMonitoring = false;
+            btn.textContent = "START MONITORING";
+            btn.classList.remove('recording');
+            location.reload(); // Quick reset
+        }
+    }
+
+    function startRecordingLoop(stream) {
+        if (!isMonitoring) return;
+
+        // Record for 2 seconds
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
+
+        mediaRecorder.onstop = async () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            await sendToBackend(audioBlob);
+
+            // Loop: Start recording again immediately if still monitoring
+            if (isMonitoring) startRecordingLoop(stream);
+        };
+
+        mediaRecorder.start();
+        setTimeout(() => mediaRecorder.stop(), 2000); // Stop after 2 seconds
+    }
+
+    async function sendToBackend(blob) {
+        const formData = new FormData();
+        formData.append("audio", blob, "mic_capture.wav");
+
+        try {
+            const response = await fetch("http://localhost:8080/api/drone/scan", {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+            updateUI(data);
+        } catch (error) {
+            console.error("Radar Offline:", error);
+        }
+    }
+
+    function updateUI(data) {
+        const circle = document.getElementById('status-circle');
+        const text = document.getElementById('status-text');
+        const className = document.getElementById('class-name');
+        const confVal = document.getElementById('confidence-val');
+        const confFill = document.getElementById('confidence-fill');
+
+        // Update Data
+        className.textContent = data.class_name;
+        const percentage = Math.round(data.confidence * 100);
+        confVal.textContent = percentage + "%";
+        confFill.style.width = percentage + "%";
+
+        // Visual Alert Logic
+        if (data.is_drone) {
+            circle.className = "status-indicator threat";
+            circle.textContent = "⚠️";
+            text.textContent = "THREAT DETECTED";
+            text.style.color = "#ef4444";
+            confFill.style.backgroundColor = "#ef4444";
+        } else {
+            circle.className = "status-indicator safe";
+            circle.textContent = "🛡️";
+            text.textContent = "SECTOR CLEAR";
+            text.style.color = "#10b981";
+            confFill.style.backgroundColor = "#10b981";
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+# --- Python Ignored Files ---
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+drone-ai-python/models/yamnet/   # Don't commit large models if downloaded
+drone-ai-python/data/            # Don't commit your dataset
+
+# --- Java Ignored Files ---
+target/
+.mvn/wrapper/
+*.class
+*.jar
+*.war
+
+# --- IDE Settings (Optional but recommended) ---
+.idea/
+*.iml
+.vscode/
+.DS_Store
