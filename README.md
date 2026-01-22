@@ -96,9 +96,9 @@ This system utilizes a **Microservices Architecture** to separate high-performan
 ## License & Acknowledgments
 Developed for the **Ottawa Defence Hackathon**.
 
-* **Dataset:** Provided by AVSS / Challenge Organizers.
 * **Model:** YAMNet (Google Research).
-* **Team:** [Your Team Name / Your Name]
+
+
 
 
 
