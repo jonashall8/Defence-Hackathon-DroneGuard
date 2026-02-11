@@ -14,7 +14,7 @@ By leveraging **Transfer Learning** on the YAMNet architecture, DroneGuard acts 
 
 ##  Tactical Value: Why This Matters on the Modern Battlefield
 
-As seen in recent conflicts, the battlefield is increasingly saturated with low-cost, commercial-off-the-shelf (COTS) drones used for reconnaissance and kinetic strikes.
+As seen in recent conflicts such as the war in Ukraine, the battlefield is increasingly saturated with low-cost, commercial-off-the-shelf (COTS) drones used for reconnaissance and kinetic strikes.
 
 ### The Challenge
 * **Radar Blindspots:** Class 1 UAS are often too small to generate a reliable radar return, or they fly below the radar horizon in "cluttered" environments like urban centers or heavy foliage.
@@ -97,6 +97,7 @@ This system utilizes a **Microservices Architecture** to separate high-performan
 Developed for the **Ottawa Defence Hackathon**.
 
 * **Model:** YAMNet (Google Research).
+
 
 
 
